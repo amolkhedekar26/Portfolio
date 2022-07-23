@@ -26,7 +26,12 @@ const register = async (req, res, next) => {
     const newUser = new User(result);
     const savedUser = await newUser.save();
     const accessToken = await signAccessToken(savedUser.uid);
-    res.send({ result: "User created successfully" });
+    // res.send({ result: "User created successfully" });
+    const responseData = {
+      
+    };
+    const message = "Registration successful";
+    handleSuccessResponse(res, responseData, "User created successfully");
   } catch (error) {
     if (error.isJoi === true) {
       error.status = 422;

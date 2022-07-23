@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const createError = require("http-errors");
+const cors = require("cors");
 const headerMiddleware = require("./middlewares/corsHeader");
 const isAuthenticated = require("./middlewares/isAuthenticated");
 const { handleErrorResponse } = require("./utils/response");
@@ -38,7 +39,8 @@ class App {
         extended: true,
       })
     );
-    this.app.use(headerMiddleware);
+    // this.app.use(headerMiddleware);
+    this.app.use(cors());
   }
 
   setupRoutes() {
@@ -79,7 +81,7 @@ class App {
       //       message: err.message,
       //     },
       //   });
-      console.log(err);
+      // console.log(err);
       handleErrorResponse(res, err);
     });
   }
