@@ -5,9 +5,9 @@ const Skills = require("../skills/Skills.model");
  * @param {Model} Model 
  * @returns {Promise}
  */
-const create = (Model) => {
+const create = (modelObject) => {
   return new Promise((resolve, reject) => {
-    Model.save(function (err, obj) {
+    modelObject.save(function (err, obj) {
       if (err) {
         reject(err);
       }

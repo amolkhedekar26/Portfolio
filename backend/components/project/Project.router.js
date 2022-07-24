@@ -5,10 +5,8 @@ const router = express.Router();
 
 const { createProject, getProjectsByUserId } = require("./Project.controller");
 
-// Add the Projec routes
 router.post("/", createProject);
 
 router.get("/", getProjectsByUserId);
 
-// Export the router
 module.exports = router;

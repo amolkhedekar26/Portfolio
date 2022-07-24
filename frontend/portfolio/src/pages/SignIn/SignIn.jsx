@@ -1,4 +1,5 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { TextInputAuth } from "../../components/TextInputAuth";
 import { PrimaryButton } from "../../components/PrimaryButton";
 import EmailIcon from "../../assets/icons/email.svg";
@@ -11,6 +12,7 @@ import ErrorIcon from "../../assets/icons/erroricon.svg";
 
 function SignIn() {
   const loginUserApi = useApi(userApi.loginUser);
+  const navigate = useNavigate();
 
   const initialState = {
     inputEmail: "",
@@ -36,7 +38,7 @@ function SignIn() {
     const reqBody = {
       email: state.inputEmail,
       password: state.inputPassword,
-    }
+    };
     loginUserApi.request(reqBody);
     setData(loginUserApi.data);
   }
@@ -47,6 +49,9 @@ function SignIn() {
       if (loginUserApi.data.success) {
         setHasError(false);
         notify(loginUserApi.data.message, "success");
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
       } else {
         setHasError(true);
         // notify(loginUserApi.data.message, "error");
@@ -77,14 +82,21 @@ function SignIn() {
           onChange={handleChange}
         />
         <div className="error-forgot-div">
-          <span className={hasError?"error-text show":"hide"}>
+          <span className={hasError ? "error-text show" : "hide"}>
             <img src={ErrorIcon} alt="" />
-            Incorrect password entered</span>
+            Incorrect password entered
+          </span>
           <a href="/forgot-password">Forgot password?</a>
         </div>
         <PrimaryButton onClick={handleSignIn}>Sign In</PrimaryButton>
-        <p className="sign-up-text">Don't have an account? <a className="sign-up-link" href="/signup">Sign up here</a> </p>
+        <p className="sign-up-text">
+          Don't have an account?{" "}
+          <a className="sign-up-link" href="/signup">
+            Sign up here
+          </a>{" "}
+        </p>
       </form>
+      <ToastContainer />
     </section>
   );
 }

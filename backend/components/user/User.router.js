@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+// Router for user (authentication)
+
 const {
   register,
   login,
@@ -12,10 +14,11 @@ const {
   logout,
 } = require("../user/User.controller");
 
-// Add the User Authentication routes
-router.post("/login", login);
+const { registerUser, loginUser } = require("./Users.controller");
 
-router.post("/register", register);
+router.post("/login", loginUser);
+
+router.post("/register", registerUser);
 
 router.post("/refresh-token", refreshToken);
 
@@ -29,5 +32,4 @@ router.post("/change-password", changePassword);
 
 router.delete("/logout", logout);
 
-// Export the router
 module.exports = router;

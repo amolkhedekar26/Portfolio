@@ -1,6 +1,7 @@
 const CreateError = require("http-errors");
 const repository = require("./Project.repository");
 const Project = require("./Project.model");
+const { validateCreateRequest } = require("./Project.validation");
 
 // Service for Project
 
@@ -14,25 +15,9 @@ const getUniqueArrayElements = (a, b) => {
 
 const createProject = async (userId, data) => {
   return new Promise(async (resolve, reject) => {
-    // const userId = data.userId;
-    const projectNew = data.project;
-
-    if (!userId) {
-      reject(new CreateError(400, "Userid is required"));
-    }
-
-    if (!projectNew) {
-      reject(CreateError(400, "Project is required"));
-    }
-
-    if (!projectNew.name) {
-      reject(CreateError(400, "Project name is required"));
-    }
-
-    if (!projectNew.description) {
-      reject(new CreateError("Project description is required"));
-    }
     try {
+      await validateCreateRequest(userId, data);
+      const projectNew = data.project;
       let result;
       // Check if the project already exists for the userId
       let projectOld = await repository.getByUserId(Project, userId);
@@ -74,6 +59,9 @@ const createProject = async (userId, data) => {
 const getProjectsByUserId = async (userId) => {
   return new Promise((resolve, reject) => {
     try {
+      if (!userId || userId === "") {
+        throw new Error("UserId is required");
+      }
       let result = repository.getByUserId(Project, userId);
       resolve(result);
     } catch (err) {

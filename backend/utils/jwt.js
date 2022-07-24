@@ -76,7 +76,7 @@ module.exports = {
       const payload = {};
       const options = {
         expiresIn: "1h",
-        issuer: "ECcom.com",
+        issuer: "Portfolio.com",
         audience: userId,
       };
       JWT.sign(payload, secret, options, (err, token) => {

@@ -90,7 +90,24 @@
     background-color: #D83A52;
     color: #fff;
   }
-  .link-item span {
+  .link-name-span {
     margin-left: 24px;
   }
-  
+  .nav-text button{
+    text-decoration: none;
+    color:black;
+    font-size: 18px;
+    font-weight: normal;
+    width: 95%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-radius:0.5rem;
+    transition: 350ms;
+    background-color:transparent;
+  }
+  .nav-text button:hover {
+    background-color: #F8E1E7;
+    color: #D83A52;
+  }

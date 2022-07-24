@@ -1,13 +1,13 @@
 const repository = require("./Profile.repository");
 const Profile = require("./Profile.model");
+const { validateCreateRequest } = require("./Profile.validation");
 
-// Service for the Profile 
+// Service for the Profile
 
 const createProfile = async (userId, data) => {
   return new Promise(async (resolve, reject) => {
-    // Do validation here
-
     try {
+      await validateCreateRequest(userId, data);
       let result;
       // Check if user already has a profile
       const existingProfile = await repository.getByUserId(Profile, userId);
@@ -23,6 +23,9 @@ const createProfile = async (userId, data) => {
 
       resolve(result);
     } catch (err) {
+      if (err.isJoi === true) {
+        err.status = 422;
+      }
       reject(err);
     }
   });
@@ -31,6 +34,9 @@ const createProfile = async (userId, data) => {
 const getProfile = async (userId) => {
   return new Promise(async (resolve, reject) => {
     try {
+      if (!userId || userId === "") {
+        throw new Error("UserId is required");
+      }
       const profile = await repository.getByUserId(Profile, userId);
       resolve(profile);
     } catch (err) {
